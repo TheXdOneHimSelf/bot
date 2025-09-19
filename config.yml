@@ -205,12 +205,12 @@ online_moves:
  #   player: Username
     only_without_book: false
     use_for_variants: true
-    allow_repetitions: true              # Whether the cloud can create repetitions on the board. Can lead to unintentional draws.     
+    allow_repetitions: false              # Whether the cloud can create repetitions on the board. Can lead to unintentional draws.     
     min_time: 20
     timeout: 5
     min_games: 10
     only_with_wins: true
-    selection: "win_rate"
+    selection: "performance"
     anti: true
     # max_depth: 20
 
