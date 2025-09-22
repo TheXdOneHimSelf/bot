@@ -230,14 +230,12 @@ online_moves:
     enabled: true
     priority: 250
     only_without_book: false
-    min_candidates: 5
-    min_time: 20
-    timeout: 3
-    selection: "optimal"
-    allow_repetitions: true              # Whether the cloud can create repetitions on the board. Can lead to unintentional draws.
-    trust_eval: true      
-    # max_depth: 30
-
+    allow_repetitions: false              # Whether the chessdb can create repetitions on the board. Can lead to unintentional draws.
+    trust_eval: true                     # Whether the chessdb eval should be trusted for draw offers and resignations.
+    min_time: 10                       
+    timeout: 3             
+    best_move: true          
+            
   online_egtb:
     enabled: true
     min_time: 20
