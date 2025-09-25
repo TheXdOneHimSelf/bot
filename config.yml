@@ -335,7 +335,8 @@ whitelist:
   - InvinxibleFlxsh
 blacklist:
   - NimsiluBot
- # - VEER-OMEGA-BOT
+ # - VEER-OMEGA-
+online_blacklists:
 books:
   Titans: "./engines/black.bin"
   optimus2502: "./engines/OPTIMUS2502.bin"
