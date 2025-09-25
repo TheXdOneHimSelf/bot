@@ -15,7 +15,6 @@ from enums import Challenge_Color, Perf_Type, Variant
 from event_handler import Event_Handler
 from game_manager import Game_Manager
 from logo import LOGO
-from utils import parse_time_control
 
 try:
     import readline
@@ -56,6 +55,7 @@ class User_Interface:
             self.api.append_user_agent(username)
             await self._handle_bot_status(account.get("title"), allow_upgrade)
             await self._test_engines()
+            await self._download_online_blacklists()
 
             self.game_manager = Game_Manager(self.api, self.config, username)
             self.game_manager_task = asyncio.create_task(self.game_manager.run())
@@ -129,6 +129,12 @@ class User_Interface:
             await Engine.test(engine_config)
             print("OK")
 
+    async def _download_online_blacklists(self) -> None:
+        for url in self.config.online_blacklists:
+            online_blacklist = await self.api.download_blacklist(url) or []
+            self.config.blacklist.extend(username.lower() for username in online_blacklist)
+            print(f'Blacklisted {len(online_blacklist)} users from "{url}".')
+
     async def _handle_command(self, command: list[str]) -> None:
         match command[0]:
             case "blacklist":
@@ -170,22 +176,16 @@ class User_Interface:
         print(f"Added {command[1]} to the blacklist.")
 
     def _challenge(self, command: list[str]) -> None:
-        if len(command) < 2 or len(command) > 6:
+        if len(command) < 2:
             print(COMMANDS["challenge"])
             return
 
         try:
-            opponent_username = command[1]
-            time_control = command[2] if len(command) > 2 else "1+1"
-            initial_time, increment = parse_time_control(time_control)
-            color = Challenge_Color(command[3].lower()) if len(command) > 3 else Challenge_Color.RANDOM
-            rated = command[4].lower() in ["true", "yes", "rated"] if len(command) > 4 else True
-            variant = self._find_enum(command[5], Variant) if len(command) > 5 else Variant.STANDARD
+            challenge_request = Challenge_Request.parse_from_command(command[1:], 60)
         except ValueError as e:
             print(e)
             return
 
-        challenge_request = Challenge_Request(opponent_username, initial_time, increment, rated, color, variant, 300)
         self.game_manager.request_challenge(challenge_request)
         print(f"Challenge against {challenge_request.opponent_username} added to the queue.")
 
@@ -194,36 +194,29 @@ class User_Interface:
         print("Challenge queue cleared.")
 
     def _create(self, command: list[str]) -> None:
-        if len(command) < 3 or len(command) > 6:
+        if len(command) < 3:
             print(COMMANDS["create"])
             return
 
         try:
             count = int(command[1])
-            opponent_username = command[2]
-            time_control = command[3] if len(command) > 3 else "1+1"
-            initial_time, increment = parse_time_control(time_control)
-            rated = command[4].lower() in ["true", "yes", "rated"] if len(command) > 4 else True
-            variant = self._find_enum(command[5], Variant) if len(command) > 5 else Variant.STANDARD
+        except ValueError:
+            print("First argument must be the number of game pairs to create.")
+            return
+
+        try:
+            challenge_request = Challenge_Request.parse_from_command(command[2:], 60)
         except ValueError as e:
             print(e)
             return
 
         challenges: list[Challenge_Request] = []
         for _ in range(count):
-            challenges.append(
-                Challenge_Request(
-                    opponent_username, initial_time, increment, rated, Challenge_Color.WHITE, variant, 300
-                )
-            )
-            challenges.append(
-                Challenge_Request(
-                    opponent_username, initial_time, increment, rated, Challenge_Color.BLACK, variant, 300
-                )
-            )
+            challenges.append(challenge_request.replaced(color=Challenge_Color.WHITE))
+            challenges.append(challenge_request.replaced(color=Challenge_Color.BLACK))
 
         self.game_manager.request_challenge(*challenges)
-        print(f"Challenges for {count} game pairs against {opponent_username} added to the queue.")
+        print(f"Challenges for {count} game pairs against {challenge_request.opponent_username} added to the queue.")
 
     async def _join(self, command: list[str]) -> None:
         if len(command) < 2 or len(command) > 3:
