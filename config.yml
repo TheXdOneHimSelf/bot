@@ -215,7 +215,7 @@ online_moves:
     # max_depth: 20
 
   lichess_cloud:
-    enabled: true
+    enabled: false
     priority: 200
     only_without_book: true
     min_eval_depth: 20
@@ -280,9 +280,9 @@ challenge:
   #  - classical
   bot_modes:
    # - casual
-    - rated
+   # - rated
   human_modes:
-    - casual
+   # - casual
    #- rated
 
 matchmaking:
