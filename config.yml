@@ -286,7 +286,7 @@ challenge:
    #- rated
 
 matchmaking:
-  delay: 10
+  delay: 300
   timeout: 30
   selection: cyclic
   types:
