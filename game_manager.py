@@ -335,6 +335,3 @@ class Game_Manager:
             print(f"Challenges against {challenge_request.opponent_username} removed from queue.")
             while challenge_request in self.challenge_requests:
                 self.challenge_requests.remove(challenge_request)
-# Updated on Mon Sep 29 02:36:03 UTC 2025
-# Updated on Mon Sep 29 02:41:39 UTC 2025
-# Updated on Mon Sep 29 14:04:19 UTC 2025

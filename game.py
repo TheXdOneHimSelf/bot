@@ -180,6 +180,3 @@ class Game:
         message = " • ".join([info.id_str, opponents_str, message])
 
         print(f"{message}\n{128 * '‾'}")
-# Updated on Mon Sep 29 02:36:03 UTC 2025
-# Updated on Mon Sep 29 02:41:39 UTC 2025
-# Updated on Mon Sep 29 14:04:19 UTC 2025
