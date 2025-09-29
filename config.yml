@@ -113,7 +113,7 @@ gaviota:
 
 opening_books:
   enabled: true
-  priority: 400
+  priority: 999
   books:
     standard_white:
       selection: best_move 
@@ -198,6 +198,12 @@ opening_books:
       names:
         - realanti
         - anti
+    standard_human_casual: 
+      selection: weighted_random 
+      allow_repetitions: false   
+      names: 
+        - troll1
+        - troll2
 
 online_moves:
   opening_explorer:
@@ -354,3 +360,5 @@ books:
   chess960: "./engines/chess960.bin"
   960: "./engines/randomchess.bin"
   realanti: "./engines/anti.bin"
+  troll1: "./engines/blacktrolls.bin"
+  troll2: "./engines/whitetrolls.bin"
