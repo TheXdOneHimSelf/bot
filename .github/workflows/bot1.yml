@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "main"
+      - "Tournament"
     paths:
       - "user_interface.py"
 
@@ -40,6 +40,13 @@ jobs:
           curl -L -o stockfish.zip http://abrok.eu/stockfish/latest/linux/stockfish_x64_modern.zip
           unzip -o stockfish.zip -d engines/
           mv engines/stockfish_* engines/stockfish
+
+      - name: Download and rename
+        run: |
+          mkdir -p book
+          curl -L -o books/draw.bin https://raw.githubusercontent.com/TheXdOneHimSelf/Polygot/main/draw.bin
+          curl -L -o books/white.bin https://raw.githubusercontent.com/TheXdOneHimSelf/Polygot/main/white.bin
+          curl -L -o books/black.bin https://raw.githubusercontent.com/TheXdOneHimSelf/Polygot/main/black.bin
 
       - name: Install dependencies & prepare
         run: |
