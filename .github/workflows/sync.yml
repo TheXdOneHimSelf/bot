@@ -38,7 +38,9 @@ jobs:
       - name: Pull remote changes (avoid rejected push)
         run: |
           git pull --rebase origin main || true
+          git pull --rebase origin Tournament || true
 
       - name: Push changes
         run: |
           git push origin main
+          git push origin Tournament
