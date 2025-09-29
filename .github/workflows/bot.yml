@@ -34,19 +34,31 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Download latest Stockfish dev
+      - name: Query latest Stockfish dev release asset URL
+        id: get_url
+        run: |
+          url=$(curl -s https://api.github.com/repos/official-stockfish/Stockfish/releases \
+            | jq -r '[.[] | select(.prerelease==true and (.tag_name|type == "string") and (.tag_name|test("^stockfish-dev")))] | .[0].assets[] | select(.name|test("stockfish-ubuntu-x86-64-bmi2.tar$")).browser_download_url')
+          echo "ASSET_URL=$url" >> $GITHUB_ENV
+
+      - name: Download and extract Stockfish
+        run: |
+          curl -L "$ASSET_URL" -o stockfish.tar
+          tar -xf stockfish.tar
+
+      - name: Move and rename Stockfish binary to 'engines/stockfish'
         run: |
           mkdir -p engines
-          curl -L -o stockfish.zip http://abrok.eu/stockfish/latest/linux/stockfish_x64_modern.zip
-          unzip -o stockfish.zip -d engines/
-          mv engines/stockfish_* engines/stockfish
-          chmod +x engines/stockfish
+          mv stockfish/stockfish-ubuntu-x86-64-bmi2 engines/stockfish
+
+      - name: Clean up
+        run: rm -rf stockfish stockfish.tar
 
       - name: Install dependencies & prepare
         run: |
           pip install --no-cache-dir --prefer-binary -r requirements.txt
           sed -i "s/XXXXXXXXXXXXXXXXXXX/${{ secrets.TOKEN }}/g" config.yml
-          chmod +x ./engines/fairy-stockfish_x86-64-bmi2 ./engines/stockfish-7-x64-bmi2
+          chmod +x .engines/stockfish ./engines/fairy-stockfish_x86-64-bmi2 ./engines/stockfish-7-x64-bmi2
 
       - name: Run Bot
         run: |
@@ -62,4 +74,5 @@ jobs:
         run: gh workflow run "Run bot"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
