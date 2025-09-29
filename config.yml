@@ -258,6 +258,6 @@ blacklist:
 online_blacklists:
 #
 books:
-  draw: "./books/draw.bin"
-  white: "./books/white.bin"
-  black: "./books/black.bin"
+  draw: "./engines/draw.bin"
+  white: "./engines/white.bin"
+  black: "./engines/black.bin"
