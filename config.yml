@@ -185,7 +185,7 @@ resign:
   min_rating: 3000
 
 challenge:                                # Incoming challenges.
-  concurrency: 3                          # Number of games to play simultaneously.
+  concurrency: 1                          # Number of games to play simultaneously.
   max_takebacks: 3                        # Maximum number of takebacks granted to a human.
   bullet_with_increment_only: false       # Whether bullet games against BOTs should only be accepted with increment.
 # min_increment: 0                        # Minimum amount of increment to accept a challenge.
@@ -195,7 +195,7 @@ challenge:                                # Incoming challenges.
   variants:                               # Chess variants to accept (https://lichess.org/variant).
     - standard
     - chess960
-#   - fromPosition
+    - fromPosition
 #   - antichess
 #   - atomic
 #   - crazyhouse
