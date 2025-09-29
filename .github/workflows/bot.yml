@@ -58,7 +58,7 @@ jobs:
         run: |
           pip install --no-cache-dir --prefer-binary -r requirements.txt
           sed -i "s/XXXXXXXXXXXXXXXXXXX/${{ secrets.TOKEN }}/g" config.yml
-          chmod +x .engines/stockfish ./engines/fairy-stockfish_x86-64-bmi2 ./engines/stockfish-7-x64-bmi2
+          chmod +x ./engines/stockfish ./engines/fairy-stockfish_x86-64-bmi2 ./engines/stockfish-7-x64-bmi2
 
       - name: Run Bot
         run: |
@@ -74,5 +74,6 @@ jobs:
         run: gh workflow run "Run bot"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 
