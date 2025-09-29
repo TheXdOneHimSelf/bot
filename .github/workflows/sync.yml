@@ -1,37 +1,41 @@
-name: Update Python Files on Both Branches
+name: Sync BotLi Python Files
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Run manually only
 
 jobs:
-  update-python-files:
+  sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
-      - name: Find and update .py files
+      - name: Clone BotLi
         run: |
-          # Example update: add a timestamp to each .py file (customize as needed)
-          for file in $(find . -name '*.py'); do
-            echo "# Updated on $(date -u)" >> "$file"
-          done
+          git clone --depth 1 https://github.com/Torom/BotLi temp_BotLi
 
-      - name: Commit changes
+      - name: Sync .py files to main
         run: |
+          git checkout main
+          rsync -av --include='*/' --include='*.py' --exclude='*' temp_BotLi/ ./
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add *.py
-          git commit -m "Update .py files [auto]" || echo "No changes to commit"
+          git add -u
+          git add *.py || true
+          git commit -m "Sync .py files from Torom/BotLi [main]" || echo "No changes to commit"
+          git pull --rebase origin main || true
+          git push origin main
 
-      - name: Push changes
-        run: git push origin HEAD
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Sync .py files to Tournament
+        run: |
+          git checkout Tournament
+          rsync -av --include='*/' --include='*.py' --exclude='*' temp_BotLi/ ./
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add -u
+          git add *.py || true
+          git commit -m "Sync .py files from Torom/BotLi [Tournament]" || echo "No changes to commit"
+          git pull --rebase origin Tournament || true
+          git push origin Tournament
