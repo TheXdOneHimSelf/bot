@@ -34,6 +34,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
+      - name: Download latest Stockfish dev
+        run: |
+          mkdir -p engines
+          curl -L -o stockfish.zip http://abrok.eu/stockfish/latest/linux/stockfish_x64_modern.zip
+          unzip -o stockfish.zip -d engines/
+          mv engines/stockfish_* engines/stockfish
+          chmod +x engines/stockfish
+
       - name: Install dependencies & prepare
         run: |
           pip install --no-cache-dir --prefer-binary -r requirements.txt
@@ -54,3 +62,4 @@ jobs:
         run: gh workflow run "Run bot"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
