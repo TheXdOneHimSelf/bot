@@ -59,7 +59,7 @@ jobs:
           echo "Bot ended cleanly."
 
       - name: 🔁 Self-Restart
-        if: always()
         run: gh workflow run "Run bot"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
