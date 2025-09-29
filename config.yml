@@ -3,7 +3,7 @@ token: "XXXXXXXXXXXXXXXXXXX"  # Lichess OAuth2 Token.
 engines:
   standard:
     dir: "./engines"
-    name: "stockfish-ubuntu-x86-64-bmi2"
+    name: "stockfish"
     ponder: true
     silence_stderr: false
     move_overhead_multiplier: 11.8
@@ -15,26 +15,9 @@ engines:
       # time: 20.0
       # depth: 50
       # nodes: 8000000
-
-  variants:
-    dir: "./engines"
-    name: "fairy-stockfish_x86-64-bmi2"
-    ponder: true
-    silence_stderr: false
-    move_overhead_multiplier: 1.0
-    uci_options:
-      Threads: 4
-      Hash: 3456
-      Move Overhead: 240
-      Use NNUE: true 
-      EvalFile: "horde-28173ddccabe.nnue:racingkings-636b95f085e3.nnue:crazyhouse-8ebf84784ad2.nnue:kingofthehill-978b86d0e6a4.nnue:antichess-dd3cbe53cd4e.nnue:atomic-2cf13ff256cc.nnue:3check-cb5f517c228b.nnue"
-    limits:
-     # time: 20.0
-      #depth: 50
-    #  nodes: 5000000
   0.5+0:
     dir: "./engines"
-    name: "stockfish-ubuntu-x86-64-bmi2"
+    name: "stockfish"
     ponder: true
     silence_stderr: false
     move_overhead_multiplier: 19.0
@@ -42,27 +25,13 @@ engines:
       Threads: 4
       Hash: 4096
       Move Overhead: 108
-     # Use NNUE: true 
-    #  EvalFile: "nn-46832cfbead3.nnue"
     limits:
-     # time: 20.0
-      #depth: 50
-    #  nodes: 5000000
-  standard_human:
-    dir: "./engines"
-    name: "stockfish-7-x64-bmi2"
-    ponder: false
-    silence_stderr: false
-    move_overhead_multiplier: 6.9
-    uci_options:
-      Threads: 4
-      Hash: 269
-      Move Overhead: 125
-    limits:
-
+#      time: 20.0
+#      depth: 50
+#      nodes: 5000000
   bullet:
     dir: "./engines"
-    name: "stockfish-ubuntu-x86-64-bmi2"
+    name: "stockfish"
     ponder: true
     silence_stderr: false
     move_overhead_multiplier: 12.0
@@ -70,11 +39,14 @@ engines:
        Threads: 4
        Hash: 4096
        Move Overhead: 150
-    limits: 
+    limits:
+#      time: 20.0
+#      depth: 50
+#      nodes: 5000000
     
   chess960:
     dir: "./engines"
-    name: "stockfish-ubuntu-x86-64-bmi2"
+    name: "stockfish"
     ponder: true
     silence_stderr: false
     move_overhead_multiplier: 5.8
@@ -82,12 +54,15 @@ engines:
        Threads: 4
        Hash: 4096
        Move Overhead: 169
-    limits: 
+    limits:
+#      time: 20.0
+#      depth: 50
+#      nodes: 5000000
 
 
 syzygy:
   standard:
-    enabled: true
+    enabled: false
     paths:
       - "./engines/syzygy"
     max_pieces: 6
@@ -113,91 +88,47 @@ gaviota:
 
 opening_books:
   enabled: true
-  priority: 400
+  priority: 999
   books:
     standard_white:
       selection: best_move 
       allow_repetitions: true   
      # max_depth: 80
       names:
-      #  - ai 
-        - lilawhite
-      #  - one
-        - Perfect2023
-        - Opimus3.1
-        - optimus2502
-       # - optimus4
-      #  - Opimus3.1
-        - noob
+        - white
+        - draw
     standard_black:
       selection: best_move 
       allow_repetitions: true   
      # max depth : 45 
       names:
-        - niki
-      #  - optimus4
-        - lilablack
-     #   - Titans
-        - Opimus3.1
-       # - optimus4
+        - black
+        - draw
     standard_human: 
       selection: best_move 
-      allow_repetitions: true   
+      allow_repetitions: true 
+      max depth : 1 
       names: 
-        - gm
-        - noob
-        - Titans
+        - draw
     standard_black_tournament:
       selection: best_move
       allow_repetitions: true   
       names:
-        - drawing
-        - niki 
-        - one    
-        - badbot 
-        - Opimus3.1
+        - black
+        - draw
     standard_white_tournament:
       selection: best_move
       allow_repetitions: true   
       names: 
-        - drawingforwhite
-        - niki
-        - one 
-        - Opimus3.1
+        - white
+        - draw
     0.5+0_black:
       selection: best_move
       allow_repetitions: true   
       names: 
-        - winwhite
-        - niki
-        - Opimus3.1
-    antichess_black:
-      selection: best_move
-      allow_repetitions: true   
-      names: 
-        - anti
-    horde_white:
-      selection: best_move
-      allow_repetitions: true   
-      names: 
-        - horde
-    horde_black:
-      selection: best_move
-      allow_repetitions: true   
-      names:
-        - fghhorde
-    chess960:
-      selection: best_move
-      allow_repetitions: true 
-      names:
-        - chess960 
-        - 960
-    antichess_white:
-      selection: best_move
-      allow_repetitions: false
-      names:
-        - realanti
-        - anti
+        - black
+        - draw
+        
 online_moves:
   opening_explorer:
     enabled: false
@@ -213,7 +144,6 @@ online_moves:
     selection: "performance"
     anti: true
     # max_depth: 20
-
   lichess_cloud:
     enabled: false
     priority: 200
@@ -225,9 +155,8 @@ online_moves:
     allow_repetitions: true              # Whether the cloud can create repetitions on the board. Can lead to unintentional draws.
     trust_eval: true
     # max_depth: 30
-
   chessdb:
-    enabled: true
+    enabled: false
     priority: 250
     only_without_book: false
     allow_repetitions: false              # Whether the chessdb can create repetitions on the board. Can lead to unintentional draws.
@@ -235,10 +164,9 @@ online_moves:
     min_time: 10                       
     timeout: 3             
     best_move: true          
-            
   online_egtb:
     enabled: true
-    min_time: 20
+    min_time: 5
     timeout: 3
 
 offer_draw:
@@ -256,108 +184,75 @@ resign:
   against_humans: false
   min_rating: 3000
 
-challenge:
-  concurrency: 1
-  bullet_with_increment_only: false
-  max_takebacks: 2
-  min_initial: 30
-  max_initial: 1200
-  variants:
+challenge:                                # Incoming challenges.
+  concurrency: 3                          # Number of games to play simultaneously.
+  max_takebacks: 3                        # Maximum number of takebacks granted to a human.
+  bullet_with_increment_only: false       # Whether bullet games against BOTs should only be accepted with increment.
+# min_increment: 0                        # Minimum amount of increment to accept a challenge.
+# max_increment: 180                      # Maximum amount of increment to accept a challenge.
+# min_initial: 0                          # Minimum amount of initial time to accept a challenge.
+# max_initial: 315360000                  # Maximum amount of initial time to accept a challenge.
+  variants:                               # Chess variants to accept (https://lichess.org/variant).
     - standard
     - chess960
-    - antichess
-    - atomic
-    - kingOfTheHill
-    - racingKings
-    - threeCheck
-    - fromPosition
-    - crazyhouse
-    - horde
-  time_controls:
+#   - fromPosition
+#   - antichess
+#   - atomic
+#   - crazyhouse
+#   - horde
+#   - kingOfTheHill
+#   - racingKings
+#   - threeCheck
+  time_controls:                          # Speeds or time controls in initial_minutes+increment_seconds format to accept.
     - bullet
     - blitz
     - rapid
-  #  - classical
-  bot_modes:
-   # - casual
-   # - rated
-  human_modes:
-   # - casual
-   #- rated
+#   - classical
+#   - 25+0
+  bot_modes:                              # Game modes to accept against BOTs.
+    - casual                              # Unrated games.
+#   - rated                               # Rated games
+  human_modes:                            # Game modes to accept against humans.
+    - casual                              # Unrated games.
+#   - rated                               # Rated games
 
 matchmaking:
-  delay: 300
-  timeout: 30
-  selection: cyclic
-  types:
-    hp:
-      tc: 0.5+0
-    bp:
-      tc: 0.75+0
-    bullet:
-      tc: 0+1
-      variant: chess960
-    bulle2:
-      tc: 3+0
-    bc:
-      tc: 5+0
-    bm3:
-      tc: 1+0
-    gulugulu:
-      tc: 0+1
-    guliguli:
-      tc: 10+0
-    hvj:
-      tc: 1.5+0
-    win:
-      tc: 8+0
-    loss:
-      tc: 2+0
-    drum:
-      tc: 0.5+0
-      variant: chess960
-    anti:
-      tc: 0.75+0
-      variant: antichess
-    horde:
-      tc: 0.75+0
-      variant: horde
-    
+  delay: 60                               # Time in seconds the bot must be idle before a new challenge is started.
+  timeout: 60                             # Time until a challenge is canceled.
+  selection: cyclic                       # Matchmkaing type selection is one of "weighted_random", "sequential" or "cyclic".
+  types:                                  # Matchmaking types of which one is selected before each game.
+    hyperbullet:                          # Arbitrary name of the matchmaking type. Names must be unique.
+      tc: 0.5+0                           # Time control in initial_minutes+increment_seconds format.
+      rated: false                        # Whether matchmaking should play rated games. Default: true
+    slowhyperbullet:                      # Arbitrary name of the matchmaking type. Names must be unique.
+      tc: 0.5+1                           # Time control in initial_minutes+increment_seconds format.
+      rated: false                        # Whether matchmaking should play rated games. Default: true
+    fastbullet:                           # Arbitrary name of the matchmaking type. Names must be unique.
+      tc: 1+0                             # Time control in initial_minutes+increment_seconds format.
+      rated: false                        # Whether matchmaking should play rated games. Default: true
+    bullet:                               # Arbitrary name of the matchmaking type. Names must be unique.
+      tc: 1+1                             # Time control in initial_minutes+increment_seconds format.
+      rated: false                        # Whether matchmaking should play rated games. Default: true
+    slowbullet:                           # Arbitrary name of the matchmaking type. Names must be unique.
+      tc: 2+0                             # Time control in initial_minutes+increment_seconds format.
+      rated: false                        # Whether matchmaking should play rated games. Default: true
+    slowerbullet:                         # Arbitrary name of the matchmaking type. Names must be unique.
+      tc: 2+1                             # Time control in initial_minutes+increment_seconds format.
+      rated: false                        # Whether matchmaking should play rated games. Default: true
 
 messages:
-  greeting: "Konnichiwa guzaimase! ❤️‍🔥Using help of {engine} Type !help to glimpse my arsenal. Best of luck"
-  goodbye: "GGs, ezz. May we meet again, may I win again 💶 {me} signing off!"
-  greeting_spectators: "ITZ {engine} in {me} competing for more depth with @{opponent} Type !help for a list of commands."
-  goodbye_spectators: "SIMULATION TERMINATED@{opponent}.May our paths cross again!?Thanks For watching, {me} signing off!"
+  greeting: "Hello {opponent}! Good luck and have fun! Type !help for a list of commands."
+  goodbye: "Thank you for the game, {opponent}!"
+  greeting_spectators: "Welcome spectators! Type !help for a list of commands."
+  goodbye_spectators: "Thank you all for watching!"
 
 whitelist:
-  - Supratsa
-  - InvinxibleFlxsh
+#
 blacklist:
-  - NimsiluBot
- # - VEER-OMEGA-
+#
 online_blacklists:
+#
 books:
-  Titans: "./engines/black.bin"
-  optimus2502: "./engines/OPTIMUS2502.bin"
-  optimus4: "./engines/win.bin"
-  Perfect2023: "./engines/white.bin"
-  Opimus3.1: "./engines/Optical.bin"
-  noob: "./engines/Titans.bin"
-  ai: "./engines/nikibook.bin"
-  gm: "./engines/gm2001(1).bin"
-  niki: "./engines/nikimoves.bin"
-  lilawhite: "./engines/lilawhite.bin"
-  lilablack: "./engines/lila.bin"
-  winwhite: "./engines/winwhite.bin"
-  one: "./engines/book1.bin"
-  anti: "./engines/anti_book.bin"
-  horde: "./engines/horde_book_white.bin"
-  fghhorde: "./engines/horde_book_black.bin"
-  drawing: "./engines/drawing.bin"
-  drawingforwhite: "./engines/drawingforwhite.bin"
-  badbot: "./engines/badwhite.bin"
-  chess960: "./engines/chess960.bin"
-  960: "./engines/randomchess.bin"
-  realanti: "./engines/anti.bin"
-
+  draw: "./books/draw.bin"
+  white: "./books/white.bin"
+  black: "./books/black.bin"
