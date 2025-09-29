@@ -1024,3 +1024,4 @@ class Lichess_Game:
 
         mate = self.scores[-1].relative.mate()
         return mate is not None and mate > 0
+# Updated on Mon Sep 29 02:36:03 UTC 2025
