@@ -37,13 +37,13 @@ jobs:
       - name: Install dependencies & prepare
         run: |
           pip install --no-cache-dir --prefer-binary -r requirements.txt
-          sed -i "s/TokenTimeIsBackBuddyss/${{ secrets.LICHESS_KEY }}/g" config.yml
-          chmod +x ./engines/stockfish-ubuntu-x86-64-bmi2 ./engines/fairy-stockfish_x86-64-bmi2 ./engines/stockfish-7-x64-bmi2
+          sed -i "s/XXXXXXXXXXXXXXXXXXX/${{ secrets.TOKEN }}/g" config.yml
+          chmod +x ./engines/stockfish
 
       - name: Run Bot
         run: |
           echo "Starting bot..."
-          python3 -u user_interface.py "matchmaking" &
+          python3 -u user_interface.py &
           PID=$!
           # Auto-exit before GitHub 6h limit
           ( sleep 20700 && echo "Time up. Killing bot..." && kill -SIGTERM $PID ) &
@@ -51,26 +51,6 @@ jobs:
           echo "Bot ended cleanly."
 
       - name: 🔁 Self-Restart
-        if: always()
         run: gh workflow run "Run bot"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
