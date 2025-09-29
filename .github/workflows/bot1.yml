@@ -9,15 +9,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 355  # just under 6h limit
+    timeout-minutes: 355
 
     concurrency:
       group: bot-run
-      cancel-in-progress: false  # keep live jobs safe
+      cancel-in-progress: false
 
     steps:
-      - name: Checkout repo
+      - name: Checkout Tournament branch only
         uses: actions/checkout@v3
+        with:
+          ref: Tournament
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -57,7 +60,6 @@ jobs:
           echo "Starting bot..."
           python3 -u user_interface.py &
           PID=$!
-          # Auto-exit before GitHub 6h limit
           ( sleep 20700 && echo "Time up. Killing bot..." && kill -SIGTERM $PID ) &
           wait $PID
           echo "Bot ended cleanly."
