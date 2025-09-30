@@ -10,7 +10,7 @@ engines:
     uci_options:
       Threads: 4
       Hash: 4096
-      Move Overhead: 300
+      Move Overhead: 225
     limits:
 #      time: 5.0                           # Max time per move in seconds.
 #      depth: 26                           # Max depth per move.
@@ -40,9 +40,9 @@ engines:
     uci_options:
       Threads: 4
       Hash: 5120
-      Move Overhead: 325
+      Move Overhead: 275
     limits:
-       time: 2.5                           # Max time per move in seconds.
+#      time: 2.5                           # Max time per move in seconds.
 #      depth: 26                           # Max depth per move.
 #      nodes: 4000000                      # Max nodes per move.
   standard_human:
@@ -68,7 +68,7 @@ engines:
     uci_options:
        Threads: 4
        Hash: 4096
-       Move Overhead: 325
+       Move Overhead: 250
     limits: 
 #      time: 5.0                           # Max time per move in seconds.
 #      depth: 26                           # Max depth per move.
@@ -84,7 +84,7 @@ engines:
        Hash: 4096
        Move Overhead: 178
     limits: 
-       time: 25.0                          # Max time per move in seconds.
+#      time: 25.0                          # Max time per move in seconds.
 #      depth: 26                           # Max depth per move.
 #      nodes: 4000000                      # Max nodes per move.
 
