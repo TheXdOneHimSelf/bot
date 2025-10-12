@@ -3,17 +3,17 @@ from typing import Any
 
 from api import API
 from botli_dataclasses import Challenge
-from challenge_validator import Challenge_Validator
+from challenge_validator import ChallengeValidator
 from config import Config
-from game_manager import Game_Manager
+from game_manager import GameManager
 
 
-class Event_Handler:
-    def __init__(self, api: API, config: Config, username: str, game_manager: Game_Manager) -> None:
+class EventHandler:
+    def __init__(self, api: API, config: Config, username: str, game_manager: GameManager) -> None:
         self.api = api
         self.username = username
         self.game_manager = game_manager
-        self.challenge_validator = Challenge_Validator(config, game_manager)
+        self.challenge_validator = ChallengeValidator(config, game_manager)
         self.last_challenge_event: dict[str, Any] | None = None
 
     async def run(self) -> None:
@@ -62,7 +62,8 @@ class Event_Handler:
                 case _:
                     print(event)
 
-    def _print_challenge_event(self, challenge_event: dict[str, Any]) -> None:
+    @staticmethod
+    def _print_challenge_event(challenge_event: dict[str, Any]) -> None:
         id_str = f"ID: {challenge_event['id']}"
         title = challenge_event["challenger"].get("title") or ""
         name = challenge_event["challenger"]["name"]

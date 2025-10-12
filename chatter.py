@@ -5,9 +5,9 @@ from collections import defaultdict
 import psutil
 
 from api import API
-from botli_dataclasses import Chat_Message, Game_Information
+from botli_dataclasses import ChatMessage, GameInformation
 from config import Config
-from lichess_game import Lichess_Game
+from lichess_game import LichessGame
 from utils import ml_print
 
 COMMANDS = {
@@ -27,7 +27,7 @@ SPECTATOR_COMMANDS = {"pv": "Shows the principal variation (best line of play) f
 
 class Chatter:
     def __init__(
-        self, api: API, config: Config, username: str, game_information: Game_Information, lichess_game: Lichess_Game
+        self, api: API, config: Config, username: str, game_information: GameInformation, lichess_game: LichessGame
     ) -> None:
         self.api = api
         self.username = username
@@ -44,8 +44,8 @@ class Chatter:
         self.spectator_goodbye = self._format_message(config.messages.goodbye_spectators)
         self.print_eval_rooms: set[str] = set()
 
-    async def handle_chat_message(self, chatLine_Event: dict, takeback_count: int, max_takebacks: int) -> None:
-        chat_message = Chat_Message.from_chatLine_event(chatLine_Event)
+    async def handle_chat_message(self, chat_line_event: dict, takeback_count: int, max_takebacks: int) -> None:
+        chat_message = ChatMessage.from_chat_line_event(chat_line_event)
 
         if chat_message.username == "lichess":
             if chat_message.room == "player":
@@ -89,7 +89,7 @@ class Chatter:
             ("Too bad you weren't there. Feel free to challenge me again, I will accept the challenge if possible."),
         )
 
-    async def _handle_command(self, chat_message: Chat_Message, takeback_count: int, max_takebacks: int) -> None:
+    async def _handle_command(self, chat_message: ChatMessage, takeback_count: int, max_takebacks: int) -> None:
         match chat_message.text[1:].lower():
             case "cpu":
                 await self.api.send_chat_message(self.game_info.id_, chat_message.room, self.cpu_message)
@@ -170,7 +170,8 @@ class Chatter:
 
         await self.api.send_chat_message(self.game_info.id_, room, message)
 
-    def _get_cpu(self) -> str:
+    @staticmethod
+    def _get_cpu() -> str:
         cpu = ""
         if os.path.exists("/proc/cpuinfo"):
             with open("/proc/cpuinfo", encoding="utf-8") as cpuinfo:
@@ -193,7 +194,8 @@ class Chatter:
 
         return f"{cpu} {cores}c/{threads}t @ {cpu_freq:.2f}GHz"
 
-    def _get_ram(self) -> str:
+    @staticmethod
+    def _get_ram() -> str:
         mem_bytes = psutil.virtual_memory().total
         mem_gib = mem_bytes / (1024.0**3)
 
