@@ -6,27 +6,13 @@ engines:
     name: "stockfish"
     ponder: true
     silence_stderr: false
-    move_overhead_multiplier: 1.0
+    move_overhead_multiplier: 21.0
     uci_options:
       Threads: 4
-      Hash: 4096
-      Move Overhead: 172
+      Hash: 15362
+      Move Overhead: 98
     limits:
 #      time: 5.0                           # Max time per move in seconds.
-#      depth: 26                           # Max depth per move.
-#      nodes: 4000000                      # Max nodes per move.
-  0.5+0:
-    dir: "./engines"
-    name: "stockfish"
-    ponder: true
-    silence_stderr: false
-    move_overhead_multiplier: 1.0
-    uci_options:
-      Threads: 4
-      Hash: 5120
-      Move Overhead: 250
-    limits:
-       time: 2.5                           # Max time per move in seconds.
 #      depth: 26                           # Max depth per move.
 #      nodes: 4000000                      # Max nodes per move.
   standard_human:
@@ -43,30 +29,16 @@ engines:
        time: 1.0                           # Max time per move in seconds.
 #      depth: 26                           # Max depth per move.
 #      nodes: 4000000                      # Max nodes per move.
-  bullet:
-    dir: "./engines"
-    name: "stockfish"
-    ponder: true
-    silence_stderr: false
-    move_overhead_multiplier: 1.0
-    uci_options:
-       Threads: 4
-       Hash: 4096
-       Move Overhead: 225
-    limits: 
-#      time: 5.0                           # Max time per move in seconds.
-#      depth: 26                           # Max depth per move.
-#      nodes: 4000000                      # Max nodes per move.
   chess960:
     dir: "./engines"
     name: "stockfish"
     ponder: true
     silence_stderr: false
-    move_overhead_multiplier: 1.0
+    move_overhead_multiplier: 21.0
     uci_options:
-       Threads: 4
-       Hash: 4096
-       Move Overhead: 172
+      Threads: 4
+      Hash: 15362
+      Move Overhead: 100
     limits: 
 #      time: 25.0                          # Max time per move in seconds.
 #      depth: 26                           # Max depth per move.
