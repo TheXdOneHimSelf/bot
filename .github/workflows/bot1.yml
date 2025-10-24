@@ -2,9 +2,8 @@ name: Run bot tournament
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - "Tournament"
+  schedule:
+    - cron: '0 */5 * * *'
 
 jobs:
   build:
