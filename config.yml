@@ -29,7 +29,7 @@ engines:
        time: 1.0                           # Max time per move in seconds.
 #      depth: 26                           # Max depth per move.
 #      nodes: 4000000                      # Max nodes per move.
-  ches960_human:
+  chess960_human:
     dir: "./engines"
     name: "stockfish"
     ponder: false
