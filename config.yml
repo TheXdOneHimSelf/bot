@@ -10,7 +10,7 @@ engines:
     uci_options:
       Threads: 4
       Hash: 4096
-      Move Overhead: 228
+      Move Overhead: 225
     limits:
 #      time: 5.0                           # Max time per move in seconds.
 #      depth: 26                           # Max depth per move.
@@ -24,7 +24,21 @@ engines:
     uci_options:
       Threads: 2
       Hash: 256
-      Move Overhead: 250
+      Move Overhead: 125
+    limits:
+       time: 1.0                           # Max time per move in seconds.
+#      depth: 26                           # Max depth per move.
+#      nodes: 4000000                      # Max nodes per move.
+  ches960_human:
+    dir: "./engines"
+    name: "stockfish"
+    ponder: false
+    silence_stderr: false
+    move_overhead_multiplier: 1.0
+    uci_options:
+      Threads: 2
+      Hash: 256
+      Move Overhead: 125
     limits:
        time: 1.0                           # Max time per move in seconds.
 #      depth: 26                           # Max depth per move.
@@ -34,11 +48,11 @@ engines:
     name: "stockfish"
     ponder: true
     silence_stderr: false
-    move_overhead_multiplier: 21.0
+    move_overhead_multiplier: 1.0
     uci_options:
-      Threads: 4
-      Hash: 4096
-      Move Overhead: 100
+       Threads: 4
+       Hash: 4096
+       Move Overhead: 178
     limits: 
 #      time: 25.0                          # Max time per move in seconds.
 #      depth: 26                           # Max depth per move.
@@ -175,7 +189,7 @@ challenge:                                # Incoming challenges.
   bot_time_controls:                      # Speeds or time controls in initial_minutes+increment_seconds format to accept against BOTs.
     - bullet
     - blitz
-#   - rapid
+    - rapid
 #   - classical
 #   - 25+0
   human_time_controls:                    # Speeds or time controls in initial_minutes+increment_seconds format to accept against humans.
